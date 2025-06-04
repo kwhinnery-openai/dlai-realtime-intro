@@ -1,12 +1,27 @@
-# React + Vite
+# Introduction to the Realtime API — Course Materials
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This repository contains the code and examples for the [Introduction to the Realtime API](https://www.deeplearning.ai/short-courses/openai-realtime-api/) course on DeepLearning.AI.
 
-Currently, two official plugins are available:
+## About
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+This project demonstrates how to use OpenAI's Realtime API for building interactive, real-time AI applications in the browser. The code is organized as a series of lessons, each illustrating a different aspect of the API and its capabilities.
 
-## Expanding the ESLint configuration
+- **Live Demo:** [https://kwhinnery-openai.github.io/dlai-realtime-intro/](https://kwhinnery-openai.github.io/dlai-realtime-intro/)
+- **Course:** [Introduction to the Realtime API on DeepLearning.AI](https://www.deeplearning.ai/short-courses/openai-realtime-api/)
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Getting Started
+
+To run the lessons locally, clone this repository and follow the instructions below:
+
+```bash
+git clone https://github.com/kwhinnery-openai/dlai-realtime-intro.git
+cd dlai-realtime-intro
+npm install
+npm run dev
+```
+
+Then, open your browser to the local server address provided in the terminal.
+
+## License
+
+MIT
