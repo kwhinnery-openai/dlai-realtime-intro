@@ -57,7 +57,9 @@ export default function Lesson2({ apiKey }) {
           if (evt.type === "session.updated" && evt.session?.instructions) {
             setInstructions(evt.session.instructions);
           }
-        } catch {}
+        } catch (err) {
+          setLogs((prev) => [...prev, `Error parsing event: ${err.message}`]);
+        }
       });
       dc.addEventListener("open", () => {
         setLogs((prev) => [...prev, "Data channel open"]);

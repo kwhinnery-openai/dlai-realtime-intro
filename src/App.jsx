@@ -5,7 +5,6 @@ import Lesson2 from "./Lesson2";
 import Lesson3 from "./Lesson3";
 import Lesson4 from "./Lesson4";
 import Lesson5 from "./Lesson5";
-import Lesson6 from "./Lesson6";
 
 function App() {
   const [apiKey, setApiKey] = useState("");
@@ -18,7 +17,6 @@ function App() {
     { name: "Lesson 3", component: (apiKey) => <Lesson3 apiKey={apiKey} /> },
     { name: "Lesson 4", component: (apiKey) => <Lesson4 apiKey={apiKey} /> },
     { name: "Lesson 5", component: (apiKey) => <Lesson5 apiKey={apiKey} /> },
-    { name: "Lesson 6", component: (apiKey) => <Lesson6 apiKey={apiKey} /> },
   ];
 
   const handleSetKey = () => {
