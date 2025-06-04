@@ -46,7 +46,8 @@ export default function Lesson4({ apiKey }) {
       // Create the agent
       const agent = new RealtimeAgent({
         name: "Guarded Voice Agent",
-        instructions: "Greet the user and answer questions.",
+        instructions:
+          "Greet the user and answer questions. Do not mention baseball under any circumstances.",
       });
 
       // Create the session with guardrails
@@ -61,33 +62,11 @@ export default function Lesson4({ apiKey }) {
       setStatus("Connected");
       setLogs((prev) => [...prev, "Realtime session established."]);
 
-      // Handle audio output
-      session.on("audio", (audio) => {
-        let audioEl = audioRef.current;
-        if (!audioEl) {
-          audioEl = document.createElement("audio");
-          audioEl.autoplay = true;
-          audioRef.current = audioEl;
-        }
-        audioEl.srcObject = audio.stream;
-        audioEl.play().catch((err) => {
-          setLogs((prev) => [...prev, `Audio play() error: ${err.message}`]);
-        });
+      // Log all raw events
+      session.transport.on("*", (event) => {
+        setLogs((prev) => [...prev, { type: "raw", event }]);
       });
-
-      // Handle guardrail events
-      session.on("guardrail_tripped", (event) => {
-        console.log("Guardrail tripped:", event);
-        setLastGuardrailTrip(event);
-        setLogs((prev) => [...prev, { type: "guardrail_tripped", event }]);
-      });
-
-      // Handle agent output
-      session.on("response", (event) => {
-        setLogs((prev) => [...prev, { type: "response", event }]);
-      });
-
-      // Handle errors
+      // Handle errors (keep for connection errors)
       session.on("error", (err) => {
         setError(typeof err === "string" ? err : JSON.stringify(err, null, 2));
         setLogs((prev) => [...prev, { type: "error", event: err }]);
@@ -180,27 +159,25 @@ export default function Lesson4({ apiKey }) {
                 );
               }
               // If log is an object, show expandable details
-              let label = log.type;
-              if (log.type === "guardrail_tripped") label = "Guardrail Tripped";
-              if (log.type === "response") label = "Agent Output";
-              if (log.type === "error") label = "Session Error";
-              return (
-                <div key={i} className="mb-1">
-                  <button
-                    className="text-[#10a37f] underline bg-white rounded p-1 border border-gray-200 text-left w-full hover:bg-green-50 transition"
-                    onClick={() => toggleExpand(i)}
-                    style={{ fontFamily: "inherit" }}
-                  >
-                    {expandedLogs[i] ? "▼ " : "▶ "}
-                    {label}
-                  </button>
-                  {expandedLogs[i] && (
-                    <pre className="whitespace-pre-wrap text-left bg-white rounded p-1 border border-gray-200 overflow-x-auto mt-1">
-                      {JSON.stringify(log.event, null, 2)}
-                    </pre>
-                  )}
-                </div>
-              );
+              if (log.type === "raw") {
+                return (
+                  <div key={i} className="mb-1">
+                    <button
+                      className="text-[#10a37f] underline bg-white rounded p-1 border border-gray-200 text-left w-full hover:bg-green-50 transition"
+                      onClick={() => toggleExpand(i)}
+                      style={{ fontFamily: "inherit" }}
+                    >
+                      {expandedLogs[i] ? "▼ " : "▶ "}
+                      {log.event?.type || "Event"}
+                    </button>
+                    {expandedLogs[i] && (
+                      <pre className="whitespace-pre-wrap text-left bg-white rounded p-1 border border-gray-200 overflow-x-auto mt-1">
+                        {JSON.stringify(log.event, null, 2)}
+                      </pre>
+                    )}
+                  </div>
+                );
+              }
             })
           )}
         </div>
